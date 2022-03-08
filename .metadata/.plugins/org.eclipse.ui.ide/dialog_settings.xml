@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="SmartImportWizard">
+		<item key="SmartImportRootWizardPage.STORE_HIDE_ALREADY_OPEN" value="false"/>
+		<item key="SmartImportRootWizardPage.STORE_CLOSE_IMPORTED" value="false"/>
+		<item key="SmartImportRootWizardPage.STORE_NESTED_PROJECTS" value="true"/>
+		<item key="SmartImportRootWizardPage.STORE_CONFIGURE_NATURES" value="true"/>
+		<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+			<item value="C:\Users\Maggie Herms\Documents\progTwoJava\ConstructorsDemo"/>
+			<item value="C:\Users\Maggie Herms\Documents\progTwoJava\assignmentTwo"/>
+			<item value="C:\Users\Maggie Herms\Documents\progTwoJava\assignmentOne"/>
+			<item value="C:\Users\Maggie Herms\Documents\progTwoJava\maggieHermsAssignmentOne"/>
+			<item value="C:\Users\Maggie Herms\Documents\progTwoJava\mostBasciMethodDemo"/>
+			<item value="C:\Users\Maggie Herms\Documents\progTwoJava\PredefinedClassesDemo"/>
+			<item value="C:\Users\Maggie Herms\Documents\progTwoJava\FileIODemo"/>
+			<item value="C:\Users\Maggie Herms\Documents\progTwoJava\JOptionPaneDemo"/>
+		</list>
+	</section>
+</section>

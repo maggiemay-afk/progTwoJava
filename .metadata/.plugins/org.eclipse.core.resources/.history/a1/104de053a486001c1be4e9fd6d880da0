@@ -1,0 +1,62 @@
+package assignmentOne;
+
+import javax.swing.*;
+import java.io.*;
+import java.util.*;
+
+public class Payroll {
+
+		final static Double lowTaxRate = .18;
+		final static Double middleTaxRate = .23;
+		final static Double highTaxRate = .28;
+		final static Double otherTaxRate = .33;
+		final static Double lowTaxBracket = 250.00;
+		final static Double middleTaxBracket = 550.00;
+		final static Double highTaxBracket = 1100.00;
+		
+	public static void main(String[] args) throws FileNotFoundException{
+		
+		String lastName, firstName;
+		Double payRate, hoursWorked, taxRate; 
+		Double totalPayroll = 0.0, totalTaxes = 0.0, payrollChecksTotal = 0.0;
+		Double grossSalary, taxes, netIncome;
+		
+		
+		int countOfEmployees = Integer.parseInt(JOptionPane.showInputDialog("Enter the number of "
+				+ "employees in the file")); //23 employees in txt file
+		
+		Scanner inFile = new Scanner(new FileReader("c:\\Users\\Maggie Herms\\Documents\\progTwoJava\\assignmentOne\\employees.txt")); 
+		PrintWriter outFile = new PrintWriter("c:\\Users\\Maggie Herms\\Documents\\progTwoJava\\assignmentOne\\payroll.txt");
+
+		
+		for (int i = 1; i <= countOfEmployees; i++) {
+			lastName = inFile.next();
+			firstName = inFile.next();
+			hoursWorked = inFile.nextDouble();
+			payRate = inFile.nextDouble();
+			
+			JOptionPane.showMessageDialog(null, "Processing: " + firstName + " " + lastName, "PROCESSING", JOptionPane.INFORMATION_MESSAGE);
+			
+			
+			grossSalary = (hoursWorked * payRate);
+			
+			//function to get tax rate - just if block, pass gross salary in
+			if (grossSalary <= lowTaxBracket) {
+				taxRate = lowTaxRate;
+			} else if (grossSalary <= middleTaxBracket) {
+				taxRate = middleTaxRate;
+			} else if (grossSalary <= highTaxBracket) {
+				taxRate = highTaxRate;
+			} else taxRate = otherTaxRate;
+			
+			taxes = (taxRate * grossSalary);
+			netIncome = (grossSalary - taxes);
+			
+			outFile.format("");
+			
+			totalPayroll += grossSalary;
+			totalTaxes += taxes;
+			payrollChecksTotal += netIncome;
+		}
+	}
+}

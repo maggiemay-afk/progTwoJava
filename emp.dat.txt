@@ -1,0 +1,5 @@
+parker peter 40,850.00
+wayne bruce 35,500.00
+kent clark 50,050.00
+stark tony 45,700.00
+banner bruce 65,600.00

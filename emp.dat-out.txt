@@ -1,0 +1,7 @@
+Employee count so far:	1	peter	parker	40850.00
+Employee count so far:	2	bruce	wayne	35500.00
+Employee count so far:	3	clark	kent	50050.00
+Employee count so far:	4	tony	stark	45700.00
+Employee count so far:	5	bruce	banner	65600.00
+Number of employees processed: 5
+Total Salary: 237700.00

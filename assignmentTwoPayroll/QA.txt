@@ -1,0 +1,11 @@
+Hours: 20.0
+Salary: 200.00
+Taxes: 50.00
+Net Income: 150.00
+
+Hours: 20.0
+Rate of Pay: 13.00
+Overtime Rate: 20.00
+Salary: 200.00
+Taxes: 50.00
+Net Income: 150.00
