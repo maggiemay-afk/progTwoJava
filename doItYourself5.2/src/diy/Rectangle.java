@@ -37,6 +37,10 @@ public class Rectangle {
 		length = y;
 	}
 	
+	public String toString () {
+		return String.valueOf(getArea());
+	}
+	
 	public static void main (String[] args) {	
 		Rectangle rect = new Rectangle(
 				Double.parseDouble(JOptionPane.showInputDialog("Please enter a rectangle width:")), 
@@ -44,17 +48,17 @@ public class Rectangle {
 		);
 		Rectangle rect2 = new Rectangle();
 		
-		System.out.println(rect.getArea());
-		System.out.println(rect2.getArea());
+		JOptionPane.showMessageDialog(null, rect, "Rectangle Area", JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(null, rect2, "Rectangle Area", JOptionPane.INFORMATION_MESSAGE);
 		
 		Rectangle rect3 = new Rectangle(rect); //deep copy
-		System.out.println(rect3.getArea());
+		JOptionPane.showMessageDialog(null, rect3, "Rectangle Area", JOptionPane.INFORMATION_MESSAGE);
 		
 		Rectangle rect4 = rect; //shallow copy
 		rect.setWidth(20);      //affects both rect and rect4
 		rect.computeArea();    
-		System.out.println(rect3.getArea()); //changes to rect do not affect rect3 here - deep copy
-		System.out.println(rect4.getArea()); //changes to rect DO affect rect4 here - shallow copy
+		JOptionPane.showMessageDialog(null, rect3, "Rectangle Area", JOptionPane.INFORMATION_MESSAGE); //changes to rect do not affect rect3 here - deep copy
+		JOptionPane.showMessageDialog(null, rect4, "Rectangle Area", JOptionPane.INFORMATION_MESSAGE); //changes to rect DO affect rect4 here - shallow copy
 	
 	}
 }
