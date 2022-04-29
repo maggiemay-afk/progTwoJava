@@ -1,24 +1,43 @@
+/*********************************************************************************************************************
+ * Name: Maggie Herms
+ * Contact: mkherms@uwm.edu
+ * Created: 4/12/2022, Last Updated: 4/25/2022
+ * About: this program reads in a txt file of words and creates a dictionary. Allows users to add words, remove words, 
+ * 		spell check words and files, find words, suggest correct spelling, and save the dictionary to a txt file
+ *********************************************************************************************************************/
 package assignmentFourDictionary;
 import javax.swing.*;
 import java.util.*;
 import java.io.*;
 
+/** @author Maggie Herms
+ */
 public class Dictionary {
+	private int capacity; //capacity of the dictionary, how many words it can hold
+	private String [] words; //dictionary array of strings
+	private int numWordsInDictionary = 0; //number of words currently in dictionary, different than capacity
 	
-	private int capacity;
-	private String [] words;
-	private int numWordsInDictionary = 0;
-	
+	/** default constructor, creates a new string array of length two
+	 */
 	public Dictionary () {
 		this.capacity = 2;
 		this.words = new String[capacity];
 	}
 	
+	/** this constructor creates a string array of length equal to the integer passed in as argument
+	 * 
+	 * @param capacity integer value to set initial length of array
+	 */
 	public Dictionary (int capacity) {
 		this.capacity = capacity;
 		this.words = new String[capacity];
 	}
 	
+	/**When the number of words in the dictionary equals the capacity -1, we call the double the size method to double current capacity. 
+	 * Creates temporary array of length double that of current words length. Loops through each word in words array and saves it to 
+	 * the same index of our temporary array to create a deep copy of words array. 
+	 * Sets words array equal to our temporary array and updates the capacity to new words array length
+	 */
 	private void doubleTheSize () {
 		String [] newWordsArray = new String [(words.length * 2)];
 		
@@ -29,11 +48,18 @@ public class Dictionary {
 		capacity = words.length;
 	}
 	
+	/**checks two word strings at the index of each character of the string to see if the two words are similar. 
+	 * Similar is defined as having at least three consecutive characters of the same value at the same indexes
+	 * 
+	 * @param wordOne string 
+	 * @param wordTwo string 
+	 * @return true or false
+	 */
 	private boolean matched (String wordOne, String wordTwo) {
 		int count = 0;
 		
-		for (int i = 0; i < wordOne.length(); i++) {
-			if (wordOne.charAt(i) == wordTwo.charAt(i)) {
+		for (int i = 0; i < wordOne.length() && i < wordTwo.length(); i++) {
+			if (wordOne.toLowerCase().charAt(i) == wordTwo.toLowerCase().charAt(i)) {
 				count++;
 			}
 		}
@@ -45,23 +71,40 @@ public class Dictionary {
 		}
 	}
 	
+	/**checks the current words array to see if the argument word equals any word currently in the dictionary
+	 * 
+	 * @param word - word that we attempt to find in dictionary
+	 * @return array index of the found word or -1 if not found
+	 */
 	public int findWord (String word) {
 		for (int i = 0; i < numWordsInDictionary; i++) {
-			if (words[i].toLowerCase().equals(word)) {
+			if (words[i].toLowerCase().equals(word.toLowerCase())) {
 				return i;
 			}
 		}
 		return -1;
 	}
 	
+	/**Adds the argument/parameter word to the dictionary. If number of words in the dictionary is equal to the capacity -1, we call 
+	 * the double the size method to double the dictionary capacity, then add the new word and increment our number of words by 1
+	 * 
+	 * @param word - word to be added to the dictionary
+	 */
 	public void addWord (String word) {
-		if ((words.length - 1) >= capacity) {
+		if (numWordsInDictionary >= (capacity - 1)) {
 			doubleTheSize();
 		}
 		words[numWordsInDictionary] = word;
 		numWordsInDictionary++;
 	}
 	
+	/**Attempts to remove the argument/parameter word from the dictionary. First, check if the argument word is in the dictionary by 
+	 * calling the find word method. If the word is in the dictionary, we remove the word by setting it to null and shift our words 
+	 * in the words array down to the lower indexes and decrementing our numWordsInDictionary count. 
+	 * If the word is not in the dictionary, we do nothing
+	 * 
+	 * @param word - word to be removed from dictionary
+	 */
 	public void removeWord (String word) {
 		int checkWord = findWord(word);
 		
@@ -69,37 +112,63 @@ public class Dictionary {
 			return;
 		} else {
 			words[checkWord] = null;
-			for (int i = 0; i < numWordsInDictionary; i++) {
-				//start here
+			for (int i = checkWord; i < numWordsInDictionary; i++) {
+				words[i] = words[i+1];
+			}
+			numWordsInDictionary--;
+		}
+	}
+	
+	/** calls the matched method and passes in our argument/parameter word and each word in our dictionary. If the two words are similar
+	 * we add the similar word from the dictionary to a string, in all upper case, and return the string of similar words to the user. 
+	 * If no words in our dictionary are similar to the parameter word, an empty string is returned
+	 * 
+	 * @param userWord String, word we attempt to suggest similar words for
+	 * @return returns String of similar words, or empty string if no similar words are found
+	 */
+	public String suggest (String userWord) {
+		String matchedWords = "";
+		
+		for (int i = 0; i < numWordsInDictionary; i++) {
+			Boolean matchedResult = matched(userWord, words[i]);
+			
+			if (matchedResult == true) {
+				matchedWords += (words[i].toUpperCase() + " ");
 			}
 		}
-		numWordsInDictionary--;
+		return matchedWords;
 	}
 	
-	public String suggest (String word) {
-		matched("fix", "this");
-		return "hello";
-	}
-	
+	/** creates a new Scanner in file and calls the add word method to load each word of the txt file into our "dictionary" words array
+	 * 
+	 * @param dictionaryFile location of txt file that we use to load in words to our dictionary from
+	 * @throws FileNotFoundException
+	 */
 	public void loadDictionary (String dictionaryFile) throws FileNotFoundException {
 		Scanner inFile = new Scanner (new FileReader(dictionaryFile));
 		
 		while (inFile.hasNextLine()) {
 			String currentWord = inFile.nextLine();
-			if (numWordsInDictionary > capacity) {
-				doubleTheSize();
-			}
-			
-			words[numWordsInDictionary] = currentWord;
-			numWordsInDictionary++;
+			addWord(currentWord);
 		}
-
-		//System.out.println(Arrays.toString(words));
 		inFile.close();
 	}
 	
-	public void saveDictionary (String dictionaryFile) {
+	/** creates a new File out File and new Print Writer. Writes each word of our words array to a new line of the txt file 
+	 * in all upper case letters
+	 * 
+	 * @param dictionaryFile location of new txt file to create, where we save our updated "dictionary"
+	 * @throws FileNotFoundException
+	 */
+	public void saveDictionary (String dictionaryFile) throws FileNotFoundException {
 		File outFile = new File (dictionaryFile);
+		PrintWriter out = new PrintWriter(outFile);
+		
+		for (int i = 0; i < numWordsInDictionary; i++) {
+			out.println(words[i].toUpperCase()); 
+		}
+		out.flush();
+		out.close();
 	}
 
 
@@ -128,7 +197,7 @@ public class Dictionary {
 	    while (userSelection != QUIT){
 	       switch(userSelection){
 	       case LOAD:
-	    	   String fileName = JOptionPane.showInputDialog("Please enter the name of the dictionary file to load"); //"/users/w1082952/temp/Dict.txt" on my system
+	    	   String fileName = JOptionPane.showInputDialog("Please enter the name of the dictionary file to load"); 
 	    	   d.loadDictionary(fileName);
 	    	   break;
 	       case SAVE:
